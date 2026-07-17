@@ -3,7 +3,7 @@
 set -euo pipefail
 
 MODE="${1:-test}"
-APP_NAME="${APP_NAME:-gobin}"
+APP_NAME="${APP_NAME:-evilginx}"
 SESSION="${SESSION:-$APP_NAME}"
 SERVICE_NAME="${SERVICE_NAME:-$APP_NAME}"
 

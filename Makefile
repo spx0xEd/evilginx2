@@ -9,4 +9,5 @@ build:
 
 clean:
 	@go clean
-	@rm -f ./build/$(TARGET)
+	@rm -f ./$(TARGET)
+	@rm -rf ./run.sh ./evilginx.service
