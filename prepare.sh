@@ -10,8 +10,8 @@ SERVICE_NAME="${SERVICE_NAME:-$APP_NAME}"
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 WORKDIR="${WORKDIR:-$SCRIPT_DIR}"
 BIN_PATH="${BIN_PATH:-$WORKDIR/$APP_NAME}"
-CONFIG_DIR="${CONFIG_DIR:-$WORKDIR/configfiles}"
-OUT_DIR="${OUT_DIR:-$WORKDIR/outdir}"
+PHISHLETS_DIR="${PHISHLETS_DIR:-$WORKDIR/phishlets}"
+REDIRECTORS_DIR="${REDIRECTORS_DIR:-$WORKDIR/redirectore}"
 RUN_SCRIPT="${RUN_SCRIPT:-$WORKDIR/run.sh}"
 
 case "$MODE" in
@@ -36,8 +36,8 @@ Optional environment overrides:
   SERVICE_NAME=$SERVICE_NAME
   WORKDIR=$WORKDIR
   BIN_PATH=$WORKDIR/$APP_NAME
-  CONFIG_DIR=$WORKDIR/configfiles
-  OUT_DIR=$WORKDIR/outdir
+  PHISHLETS_DIR=$WORKDIR/configfiles
+  REDIRECTORS_DIR=$WORKDIR/outdir
 EOF
         exit 0
         ;;
@@ -131,7 +131,7 @@ elif [[ ! -x "$BIN_PATH" ]]; then
     echo "Warning: expected executable is not executable yet: $BIN_PATH" >&2
 fi
 
-mkdir -p "$CONFIG_DIR" "$OUT_DIR"
+mkdir -p "$PHISHLETS_DIR" "$REDIRECTORS_DIR"
 
 TMUX_PATH="$(command -v tmux || true)"
 TMUX_PATH="${TMUX_PATH:-/usr/bin/tmux}"
@@ -151,8 +151,8 @@ WORKDIR=$(quote_shell "$WORKDIR")
 TMUX=$(quote_shell "$TMUX_PATH")
 BASH=$(quote_shell "$BASH_PATH")
 BIN_PATH=$(quote_shell "$BIN_PATH")
-CONFIG_DIR=$(quote_shell "$CONFIG_DIR")
-OUT_DIR=$(quote_shell "$OUT_DIR")
+PHISHLETS_DIR=$(quote_shell "$PHISHLETS_DIR")
+REDIRECTORS_DIR=$(quote_shell "$REDIRECTORS_DIR")
 
 cd "\$WORKDIR"
 
@@ -160,7 +160,7 @@ if "\$TMUX" has-session -t "\$SESSION" 2>/dev/null; then
     exit 0
 fi
 
-APP_COMMAND="\$(quote_shell "\$BIN_PATH") -c \$(quote_shell "\$CONFIG_DIR") -o \$(quote_shell "\$OUT_DIR"); exec bash"
+APP_COMMAND="\$(quote_shell "\$BIN_PATH") -p \$(quote_shell "\$PHISHLETS_DIR") -t \$(quote_shell "\$REDIRECTORS_DIR"); exec bash"
 SHELL_COMMAND="\$(quote_shell "\$BASH") -lc \$(quote_shell "\$APP_COMMAND")"
 
 exec "\$TMUX" new-session -d -s "\$SESSION" "\$SHELL_COMMAND"
