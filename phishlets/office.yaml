@@ -31,6 +31,16 @@ auth_tokens:
     keys: ['.*:regexp']
   - domain: 'live.com'
     keys: ['.*:regexp']
+  - domain: 'outlook.office.com'
+    keys: ['.*:regexp']
+  - domain: 'outlook.live.com'
+    keys: ['.*:regexp']
+  - domain: 'outlook.live.com'
+    keys: ['.*:regexp']
+  - domain: 'www.microsoft.com'
+    keys: ['.*:regexp']
+  - domain: '.microsoft.com'
+    keys: ['.*:regexp']
 auth_urls:
   - '/kmsi'
   - '/kmsi/.*'
